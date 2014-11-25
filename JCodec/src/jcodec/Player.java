@@ -5,11 +5,6 @@
  */
 package jcodec;
 
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import org.jcodec.api.FrameGrab;
-import org.jcodec.common.FileChannelWrapper;
-
 
 /**
  *
