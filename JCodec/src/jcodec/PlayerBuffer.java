@@ -8,12 +8,9 @@ package jcodec;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.scene.control.TreeItem;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.FileChannelWrapper;
 
@@ -23,32 +20,32 @@ import org.jcodec.common.FileChannelWrapper;
  */
 public class PlayerBuffer extends Thread{
     public String fileName;
-    public int fps = 30;
-    private final double frameTime = 1000/fps;
+    //public int fps = 30;
+    //private final double frameTime = 1000/fps;
     private FrameGrab grabber;
-    BlockingQueue<BufferedImage> buffer = new ArrayBlockingQueue<>(500);
+    BlockingQueue<Object> framesToRender = new ArrayBlockingQueue<>(1000);
 
     public PlayerBuffer(String fileName) {
         this.fileName = fileName;
         try {
             this.grabber = new FrameGrab(new FileChannelWrapper(new FileInputStream(fileName).getChannel()));
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println("Erro ao encontrar o arquivo " + ex);
         }
     }
     
     
     @Override
     public void run() {
-        BufferedImage frame = null;
+        Object frame = null;
         
         do{
             try { 
                 frame = grabber.getFrame();
-                buffer.put(frame);
-                
+                framesToRender.put(frame);
+                System.out.println("frames" + framesToRender.size());
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println("Erro ao pegar os frames do arquivo " + ex);
             }
         }while(frame != null);
     }

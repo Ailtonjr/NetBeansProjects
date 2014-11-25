@@ -5,39 +5,48 @@
  */
 package jcodec;
 
+import java.awt.image.BufferedImage;
+import javax.swing.JLabel;
 
 /**
  *
  * @author 5108250
  */
 public class Player extends Thread {
-
-    //Reprodutor reprodutor = null;
+    public double fps = 27.0;
+    private final double frameTime = 1000/fps;
     ImagePanel reprodutor;
-    private double tempo = 0;
-    private String fileName;
+    BufferedImage frame;
+    PlayerBuffer threadPlayerBuffer;
+    JLabel label;
+
 
     public Player() {
     }
 
-    public Player(String fileName, double tempo, ImagePanel rep) throws Exception {
-        this.tempo = tempo;
-        this.fileName = fileName;
-        this.reprodutor = rep;
-
+    public Player(ImagePanel reprodutor, PlayerBuffer threadPlayerBuffer,JLabel label) throws Exception {
+        this.reprodutor = reprodutor;
+        this.threadPlayerBuffer = threadPlayerBuffer;
+        this.label = label;
     }
 
     @Override
     public void run() {
-        reprodutor.setImagem(frame);
-        reprodutor.repaint();
-
-                
-                
-            } while (frame != null);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
+        do {
+            label.setText("Buffering...");
+        } while (threadPlayerBuffer.framesToRender.size()<100);
+        label.setText("");
+        do {
+            
+            try {
+                Thread.sleep((long) frameTime);
+            } catch (InterruptedException ex) {
+                System.out.println("Nao funcionou o Sleep do FrameTime" + ex);
+            }
+                System.out.println("quantos Frames tem ? " + threadPlayerBuffer.framesToRender.size());
+                reprodutor.setImagem((BufferedImage) threadPlayerBuffer.framesToRender.poll());
+                reprodutor.repaint();
+            
+        } while (true);
     }
 }

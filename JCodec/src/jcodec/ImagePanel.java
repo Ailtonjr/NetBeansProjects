@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 /**
  * 
- * @author Ailton Cardoso Jr
+ * @author Ailton Cardoso Jr 
  *         Rômulo Goelzer Portolann
  */
 public class ImagePanel extends JPanel{
@@ -21,8 +21,10 @@ public class ImagePanel extends JPanel{
      
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(imagem, 0, 0, getPreferredSize().width, getPreferredSize().height, null);
+        g.drawImage(imagem, 0, 0, getSize().width, getSize().height-30, null);
     }
+    
+    
     
     
     
