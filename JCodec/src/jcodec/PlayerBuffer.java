@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jcodec;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import javafx.scene.control.TreeItem;
+import javax.imageio.ImageIO;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.FileChannelWrapper;
 
@@ -18,12 +18,13 @@ import org.jcodec.common.FileChannelWrapper;
  *
  * @author 5108250
  */
-public class PlayerBuffer extends Thread{
+public class PlayerBuffer extends Thread {
+
     public String fileName;
     //public int fps = 30;
     //private final double frameTime = 1000/fps;
     private FrameGrab grabber;
-    BlockingQueue<Object> framesToRender = new ArrayBlockingQueue<>(1000);
+    BlockingQueue<BufferedImage> framesToRender = new ArrayBlockingQueue<>(1000);
 
     public PlayerBuffer(String fileName) {
         this.fileName = fileName;
@@ -33,21 +34,20 @@ public class PlayerBuffer extends Thread{
             System.out.println("Erro ao encontrar o arquivo " + ex);
         }
     }
-    
-    
+
     @Override
     public void run() {
-        Object frame = null;
-        
-        do{
-            try { 
+        BufferedImage frame = null;
+
+        do {
+            try {
                 frame = grabber.getFrame();
                 framesToRender.put(frame);
-                System.out.println("frames" + framesToRender.size());
+                //System.out.println("frames" + framesToRender.size());
             } catch (Exception ex) {
                 System.out.println("Erro ao pegar os frames do arquivo " + ex);
             }
-        }while(frame != null);
+        } while (frame != null);
     }
-    
+
 }

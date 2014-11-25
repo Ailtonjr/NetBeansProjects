@@ -13,7 +13,7 @@ import javax.swing.JLabel;
  * @author 5108250
  */
 public class Player extends Thread {
-    public double fps = 27.0;
+    public double fps = 30.0;
     private final double frameTime = 1000/fps;
     ImagePanel reprodutor;
     BufferedImage frame;
@@ -46,7 +46,6 @@ public class Player extends Thread {
                 System.out.println("quantos Frames tem ? " + threadPlayerBuffer.framesToRender.size());
                 reprodutor.setImagem((BufferedImage) threadPlayerBuffer.framesToRender.poll());
                 reprodutor.repaint();
-            
         } while (true);
     }
 }

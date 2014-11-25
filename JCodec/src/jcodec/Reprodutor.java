@@ -19,7 +19,7 @@ public class Reprodutor extends javax.swing.JFrame {
      */
     public Reprodutor() throws Exception {
         initComponents();
-        String fileName = "Arquivo.mp4";
+        String fileName = "Arquivo2.mp4";
         
          PlayerBuffer threadPlayerBuffer = new PlayerBuffer(fileName);
          threadPlayerBuffer.start();
